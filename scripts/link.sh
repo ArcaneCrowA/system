@@ -19,7 +19,8 @@ stow -D --no-folding -t "$HOME" dotfiles 2>/dev/null || true
 # Force-remove any leftover targets not recognized by stow
 find dotfiles -type f,l | while IFS= read -r file; do
   target="$HOME/${file#dotfiles/}"
-  if [[ -L "$target" ]]; then
+  # Remove symlinks and regular files (stow will re-create)
+  if [[ -L "$target" ]] || [[ -f "$target" ]]; then
     rm "$target"
   fi
 done
