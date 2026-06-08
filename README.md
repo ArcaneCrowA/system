@@ -1,107 +1,83 @@
 # system
 
-Personal environment configuration — dotfiles, machine setup, and tooling automation.
-
-This repository is the single source of truth for my development environment. It is organized by concern so each config file stays small, discoverable, and reusable across macOS/Linux machines.
+Personal dotfiles and machine setup, managed with [stow](https://www.gnu.org/software/stow/) and [Task](https://taskfile.dev).
 
 ## Structure
 
 ```
 system/
-├── Taskfile.yml          # Top-level orchestration (bootstrap, install, link, update)
-├── Brewfile              # macOS Homebrew packages and casks
+├── Taskfile.yml
+├── Brewfile
+├── .gitignore
 │
-├── shell/                # Shell configuration
+├── dotfiles/                            # Stow package — mirrors $HOME
 │   ├── .zshrc
-│   ├── .bashrc
-│   └── aliases.sh        # Shared aliases across shells
-│
-├── git/                  # Git configuration
 │   ├── .gitconfig
-│   └── .gitignore_global
+│   ├── .config/
+│   │   ├── fish/
+│   │   │   ├── config.fish
+│   │   │   └── fish_plugins
+│   │   └── zed/
+│   │       ├── keymap.json
+│   │       └── settings.json
+│   └── Library/
+│       └── Application Support/
+│           └── com.mitchellh.ghostty/
+│               └── config
 │
-├── editors/              # Editor / IDE settings
-│   └── zed/              # Zed editor settings.json, keymap.json, etc.
+├── languages/
+│   ├── go.yml
+│   └── rust.yml
 │
-├── languages/            # Language-specific tooling installers & linters
-│   ├── go.yml            # Go binaries and tooling
-│   ├── rust.yml          # Rust toolchain (rustup, cargo-install)
-│   ├── node.yml          # Node.js version manager + global packages
-│   └── python.yml        # Python tooling (pipx, poetry, etc.)
+├── macos/
+│   └── defaults.sh
 │
-├── terminal/             # Terminal emulator configs
-│   ├── wezterm/
-│   └── alacritty/
-│
-├── macos/                # macOS-specific settings
-│   └── defaults.sh       # System defaults via `defaults write`
-│
-├── scripts/              # Utility scripts
-│   ├── bootstrap.sh      # First-time machine setup (brew, stow, etc.)
-│   └── link.sh           # Symlink dotfiles into $HOME
-│
-└── linux/                # Linux-specific settings (when applicable)
-    └── apt.sh            # Apt packages
+└── scripts/
+    ├── bootstrap.sh
+    └── link.sh
 ```
 
 ## Getting started
 
 ```bash
-# Clone into $HOME
-git clone <url> ~/system
+git clone git@github.com:<user>/system.git ~/Developer/system
 
-# Bootstrap a new machine (macOS)
-cd ~/system && task macos:bootstrap
+# First-time setup (macOS)
+task macos:bootstrap
 
-# Symlink configs into $HOME
+# Re-link after moving the repo
 task link
-
-# Install language-specific tooling
-task go:install
-task rust:install
 ```
 
-## How to use
-
-### Taskfile orchestration
-
-The top-level `Taskfile.yml` provides named tasks. Each subdirectory can also contain its own `Taskfile.yml` or be called via `task <namespace>:<task>`.
+## Usage
 
 ```bash
-task                      # Print available tasks
-task link                 # Symlink config files
-task go:install           # Install Go tooling
-task update               # Update everything
+task              # List all tasks
+task link         # Symlink dotfiles into $HOME via stow
+task go:install   # Install Go tooling
+task update       # Update all language tooling
 ```
 
-### Symlinks (dotfiles)
+## How it works
 
-Config files live in this repo and are symlinked into `$HOME` so the source of truth stays here. A `link.sh` script or `stow` can manage this.
+`dotfiles/` mirrors `$HOME` structure exactly. `task link` runs `stow --no-folding -t ~ dotfiles`, creating symlinks for every file into your home directory. Editing either path edits the same file.
+
+Ghostty on macOS lives under `~/Library/Application Support/`, handled by the same stow package.
+
+## Secrets and per-machine overrides
+
+Use `.local` files (gitignored by `*.local`). Example:
 
 ```bash
-# Example: symlink git configs
-ln -sf ~/system/git/.gitconfig ~/.gitconfig
+# ~/.config/fish/config.fish.local (not committed)
+set -gx DEEPSEEK_API_KEY sk-...
 ```
 
-### Machine-specific overrides
-
-For secrets or per-machine differences, append `.local` to any config file (e.g. `.gitconfig.local`, `.zshrc.local`). The main config sources these if they exist — they are not committed to the repo.
-
-## Recipes
-
-| Task | Command |
-|---|---|
-| Show all tasks | `task` |
-| Install Go tools | `task go:install` |
-| Install Rust tools | `task rust:install` |
-| Symlink everything | `task link` |
-| macOS defaults | `task macos:defaults` |
-| Brew bundle | `brew bundle --file=Brewfile` |
+The main config sources the `.local` file if it exists.
 
 ## Principles
 
-- **Declarative over imperative** — configs are idempotent where possible.
-- **Idempotent tasks** — running the same install twice should be safe.
-- **No secrets in the repo** — use `.local` overrides or environment variables for tokens.
-- **Portable where it makes sense** — prefer configs that work on both macOS and Linux.
-- **Minimal surprises** — every file has a single, clear purpose.
+- **Single source of truth** — every config lives in this repo
+- **Idempotent** — `task link` is safe to re-run any time
+- **No secrets** — `.local` files for API keys and machine-specific settings
+- **Portable** — macOS-first, Linux-ready via platform-conditional tasks
