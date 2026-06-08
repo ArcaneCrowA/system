@@ -1,0 +1,5 @@
+# Local overrides — per-machine config not committed
+*.local
+
+# macOS
+.DS_Store

@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+  install:
+    desc: Install or update development Go binaries globally
+    cmds:
+      - for:
+          - golang.org/x/tools/gopls@latest
+          - go.uber.org/mock/mockgen@latest
+          - github.com/air-verse/air@latest
+          - github.com/swaggo/swag/cmd/swag@latest
+          - github.com/pressly/goose/v3/cmd/goose@latest
+          - google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          - google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+          - github.com/go-task/task/v3/cmd/task@latest
+        cmd: go install {{.ITEM}}
+      - curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin latest

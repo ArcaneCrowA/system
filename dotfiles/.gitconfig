@@ -1,0 +1,9 @@
+[user]
+	name = Adilet
+	email = adiletbeishekeyev@gmail.com
+[log]
+	date = short
+[init]
+	defaultBranch = main
+[alias]
+    lg = log --graph --pretty=format:'%C(auto)%h %C(green)%ad%Creset | %C(auto)%s%d %C(blue)[%an]%Creset' --date=short --first-parent -10

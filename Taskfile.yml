@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+    silent: true
+
+  link:
+    desc: Symlink all dotfiles into $HOME
+    cmds:
+      - sh scripts/link.sh
+
+  # ── macOS ──────────────────────────────────────────────────────────
+
+  macos:bootstrap:
+    desc: Install Homebrew and run Brewfile
+    cmds:
+      - sh scripts/bootstrap.sh
+    platforms: [darwin]
+
+  macos:defaults:
+    desc: Apply macOS system defaults
+    cmds:
+      - sh macos/defaults.sh
+    platforms: [darwin]
+
+  # ── Languages ──────────────────────────────────────────────────────
+
+  go:install:
+    desc: Install Go development binaries
+    cmds:
+      - for:
+          - golang.org/x/tools/gopls@latest
+          - go.uber.org/mock/mockgen@latest
+          - github.com/air-verse/air@latest
+          - github.com/swaggo/swag/cmd/swag@latest
+          - github.com/pressly/goose/v3/cmd/goose@latest
+          - google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          - google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+          - github.com/go-task/task/v3/cmd/task@latest
+        cmd: go install {{.ITEM}}
+      - curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin latest
+
+  rust:install:
+    desc: Install Rust tooling
+    cmds:
+      - for:
+          - cargo-edit
+          - cargo-watch
+          - cargo-nextest
+          - cargo-tarpaulin
+          - cargo-audit
+        cmd: cargo install {{.ITEM}}
+    platforms: [darwin, linux]
+
+  # ── Update ─────────────────────────────────────────────────────────
+
+  update:
+    desc: Update all installed tooling
+    deps: [go:install, rust:install]

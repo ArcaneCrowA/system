@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+  install:
+    desc: Install Rust tooling
+    cmds:
+      - for:
+          - cargo-edit
+          - cargo-watch
+          - cargo-nextest
+          - cargo-tarpaulin
+          - cargo-audit
+        cmd: cargo install {{.ITEM}}
+    platforms: [darwin, linux]
