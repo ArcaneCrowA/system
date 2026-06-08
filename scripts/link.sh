@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Symlink dotfiles from ~/Developer/code/system into $HOME using stow.
+# Symlink dotfiles to $HOME using stow.
 # Usage: sh scripts/link.sh
 
-DOTFILES="$HOME/Developer/code/system"
+DOTFILES="$(cd "$(dirname "$0")/.." && pwd)"
 
 if ! command -v stow &> /dev/null; then
   echo "stow not found. Install it: brew install stow"
