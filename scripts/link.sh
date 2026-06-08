@@ -13,6 +13,17 @@ fi
 
 echo "Stowing dotfiles into $HOME..."
 cd "$DOTFILES"
-stow -R --no-folding -t "$HOME" dotfiles
+
+# Remove old symlinks if stow doesn't recognize them
+stow -D --no-folding -t "$HOME" dotfiles 2>/dev/null || true
+# Force-remove any leftover targets not recognized by stow
+find dotfiles -type f,l | while IFS= read -r file; do
+  target="$HOME/${file#dotfiles/}"
+  if [[ -L "$target" ]]; then
+    rm "$target"
+  fi
+done
+
+stow --no-folding -t "$HOME" dotfiles
 
 echo "Done."
