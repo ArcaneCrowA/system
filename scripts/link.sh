@@ -14,13 +14,13 @@ fi
 echo "Stowing dotfiles into $HOME..."
 cd "$DOTFILES"
 
-# Remove old symlinks if stow doesn't recognize them
+# Clean up orphaned symlinks from previous stow layouts
 stow -D --no-folding -t "$HOME" dotfiles 2>/dev/null || true
-# Force-remove any leftover targets not recognized by stow
-find dotfiles -type f,l | while IFS= read -r file; do
+
+# Remove any leftover symlinks not recognized by stow
+find dotfiles \( -type f -o -type l \) | while IFS= read -r file; do
   target="$HOME/${file#dotfiles/}"
-  # Remove symlinks and regular files (stow will re-create)
-  if [[ -L "$target" ]] || [[ -f "$target" ]]; then
+  if [[ -L "$target" ]]; then
     rm "$target"
   fi
 done

@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+  install:
+    desc: Install Python development tooling via uv
+    platforms: [darwin, linux]
+    cmds:
+      - for:
+          - pyrefly
+          - ruff
+        cmd: uv tool install {{.ITEM}}

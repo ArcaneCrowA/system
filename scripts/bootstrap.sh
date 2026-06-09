@@ -14,6 +14,9 @@ fi
 echo "==> Running Brewfile..."
 brew bundle --file="$DOTFILES/Brewfile" --no-lock
 
+# Ensure Homebrew binaries are on PATH for the remainder of this script
+eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
+
 echo "==> Linking dotfiles..."
 sh "$DOTFILES/scripts/link.sh"
 

@@ -6,4 +6,4 @@
 [init]
 	defaultBranch = main
 [alias]
-    lg = log --graph --pretty=format:'%C(auto)%h %C(green)%ad%Creset | %C(auto)%s%d %C(blue)[%an]%Creset' --date=short --first-parent -10
+	lg = log --graph --pretty=format:'%C(auto)%h %C(green)%ad%Creset | %C(auto)%s%d %C(blue)[%an]%Creset' --date=short --first-parent -10

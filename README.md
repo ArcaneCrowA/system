@@ -27,6 +27,7 @@ system/
 │
 ├── languages/
 │   ├── go.yml
+│   ├── python.yml
 │   └── rust.yml
 │
 ├── macos/

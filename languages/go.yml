@@ -5,6 +5,7 @@ version: "3"
 tasks:
   install:
     desc: Install or update development Go binaries globally
+    platforms: [darwin, linux]
     cmds:
       - for:
           - golang.org/x/tools/gopls@latest
