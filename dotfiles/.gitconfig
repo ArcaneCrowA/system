@@ -1,6 +1,5 @@
-[user]
-	name = ArcaneCrowA
-	email = arcanecrowa@icloud.com
+[include]
+	path = ~/.gitconfig.local
 [log]
 	date = short
 [init]
