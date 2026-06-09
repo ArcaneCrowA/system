@@ -1,8 +1,8 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    fzf --fish | source
-    zoxide init fish | source
-    task --completion fish | source
+    fzf --fish | source 2>/dev/null || :
+    zoxide init fish | source 2>/dev/null || :
+    task --completion fish | source 2>/dev/null || :
 
     abbr -a gc 'git add . && git commit'
 end

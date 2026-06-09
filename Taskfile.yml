@@ -15,32 +15,61 @@ tasks:
     silent: true
 
   link:
-    desc: Symlink all dotfiles into $HOME
+    desc: Symlink all dotfiles into $HOME using GNU Stow
+    preconditions:
+      - sh: "command -v stow"
+        msg: "stow not found. Please install it first: brew install stow"
     cmds:
-      - sh scripts/link.sh
+      - echo "Stowing dotfiles into $HOME..."
+      # 1. Clean up orphaned symlinks from previous stow layouts
+      - stow -D --no-folding -t "$HOME" dotfiles 2>/dev/null || true
+      # 2. Remove any leftover broken symlinks not recognized by stow
+      - |
+        find dotfiles \( -type f -o -type l \) | while IFS= read -r file; do
+          target="$HOME/${file#dotfiles/}"
+          if [[ -L "$target" ]]; then
+            rm "$target"
+          fi
+        done
+      # 3. Apply the fresh layout
+      - stow --no-folding -t "$HOME" dotfiles
+      - echo "Done."
 
   # ── Bootstrap ───────────────────────────────────────────────────────
 
   bootstrap:
-    desc: Bootstrap the machine
-    deps:
-      - macos:bootstrap
-    cmds:
-      - sh scripts/link.sh
+    desc: Bootstrap the machine (macOS)
+    deps: [macos:bootstrap]
 
   # ── macOS ──────────────────────────────────────────────────────────
 
   macos:bootstrap:
-    desc: Install Homebrew and run Brewfile
-    cmds:
-      - sh scripts/bootstrap-macos.sh
+    desc: Install Homebrew, run Brewfile, link dotfiles, apply defaults
     platforms: [darwin]
+    cmds:
+      - |
+        echo "==> Installing Homebrew..."
+        if ! command -v brew &> /dev/null; then
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
+        echo "==> Running Brewfile..."
+        brew bundle --file="Brewfile" --no-lock
+      - task: link
+      - task: macos:defaults
+      - echo "==> Bootstrap complete. Restart your shell."
 
   macos:defaults:
     desc: Apply macOS system defaults
-    cmds:
-      - sh macos/defaults.sh
     platforms: [darwin]
+    cmds:
+      - echo "Applying macOS defaults..."
+      - defaults write com.apple.finder AppleShowAllFiles -bool true
+      - defaults write com.apple.finder ShowPathbar -bool true
+      - defaults write com.apple.dock autohide -bool true
+      - defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+      - killall Finder Dock SystemUIServer 2>/dev/null || true
+      - echo "Done. Some changes may require a logout/restart."
 
   # ── Update ─────────────────────────────────────────────────────────
 

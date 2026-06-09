@@ -11,8 +11,8 @@ system/
 ├── .gitignore
 │
 ├── dotfiles/                            # Stow package — mirrors $HOME
-│   ├── .zshrc
 │   ├── .gitconfig
+│   ├── .vimrc
 │   └── .config/
 │       ├── fish/
 │       │   ├── config.fish
@@ -21,19 +21,15 @@ system/
 │       │   └── config
 │       └── zed/
 │           ├── keymap.json
-│           └── settings.json
+│           ├── settings.json
+│           ├── tasks.json
+│           ├── AGENTS.md
+│           └── snippets/
 │
 ├── languages/
 │   ├── go.yml
 │   ├── python.yml
 │   └── rust.yml
-│
-├── macos/
-│   └── defaults.sh
-│
-└── scripts/
-    ├── bootstrap-macos.sh
-    └── link.sh
 ```
 
 ## Getting started
@@ -41,11 +37,8 @@ system/
 ```bash
 git clone git@github.com:<user>/system.git ~/Developer/system
 
-# Auto-detect OS and bootstrap
+# Bootstrap everything (Homebrew, Brewfile, dotfiles, defaults)
 task bootstrap
-
-# Or run just macOS bootstrap
-#   task macos:bootstrap
 ```
 
 ## Usage
