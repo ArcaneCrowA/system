@@ -13,17 +13,15 @@ system/
 ├── dotfiles/                            # Stow package — mirrors $HOME
 │   ├── .zshrc
 │   ├── .gitconfig
-│   ├── .config/
-│   │   ├── fish/
-│   │   │   ├── config.fish
-│   │   │   └── fish_plugins
-│   │   └── zed/
-│   │       ├── keymap.json
-│   │       └── settings.json
-│   └── Library/
-│       └── Application Support/
-│           └── com.mitchellh.ghostty/
-│               └── config
+│   └── .config/
+│       ├── fish/
+│       │   ├── config.fish
+│       │   └── fish_plugins
+│       ├── ghostty/
+│       │   └── config
+│       └── zed/
+│           ├── keymap.json
+│           └── settings.json
 │
 ├── languages/
 │   ├── go.yml
@@ -62,8 +60,6 @@ task update       # Update all language tooling
 ## How it works
 
 `dotfiles/` mirrors `$HOME` structure exactly. `task link` runs `stow --no-folding -t ~ dotfiles`, creating symlinks for every file into your home directory. Editing either path edits the same file.
-
-Ghostty on macOS lives under `~/Library/Application Support/`, handled by the same stow package.
 
 ## Secrets and per-machine overrides
 
