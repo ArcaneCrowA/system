@@ -56,6 +56,7 @@ tasks:
         echo "==> Running Brewfile..."
         brew bundle --file="Brewfile" --no-lock
       - task: link
+      - fisher update
       - task: macos:defaults
       - echo "==> Bootstrap complete. Restart your shell."
 
