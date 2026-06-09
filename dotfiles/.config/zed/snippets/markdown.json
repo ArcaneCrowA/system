@@ -1,0 +1,66 @@
+{
+  "Fleeting Note": {
+    "prefix": "flee",
+    "body": [
+      "# ${1:YYYY-MM-DD}",
+      "",
+      "## Tasks for Today",
+      "- [ ] $0",
+      "",
+      "## Notes & Ideas",
+      "- "
+    ],
+    "description": "Daily scratch for 0-fleeting"
+  },
+  "Literature Note": {
+    "prefix": "lit",
+    "body": [
+      "# ${1:YYYY-MM-DD} — ${2:Source Title}",
+      "Tags: #literature #${3:tag}",
+      "",
+      "## Summary",
+      "",
+      "$4",
+      "",
+      "## Key Takeaways",
+      "- $0",
+      "",
+      "## Related Zettels",
+      "- [[]]"
+    ],
+    "description": "Dated note from a book, article, or course"
+  },
+  "Atomic Note": {
+    "prefix": "atom",
+    "body": [
+      "# ${1:Concept Name}",
+      "Tags: #atomic #${2:tag}",
+      "",
+      "## Key Idea",
+      "",
+      "$3"
+    ],
+    "description": "Permanent atomic note for 2-atomic"
+  },
+  "Index Note": {
+    "prefix": "ind",
+    "body": [
+      "# ${1:Topic Name}",
+      "Tags: #index #${2:tag}",
+      "",
+      "## Overview",
+      "",
+      "$3",
+      "",
+      "## Related Zettels",
+      "- [[]]$0",
+      "",
+      "## Literature",
+      "- [[]]",
+      "",
+      "## Open Questions",
+      "- "
+    ],
+    "description": "Map of Content / hub note for 3-index"
+  }
+}
