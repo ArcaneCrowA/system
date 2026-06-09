@@ -3,7 +3,3 @@
 
 # macOS
 .DS_Store
-
-# Nix
-nixos/result
-nixos/hardware-configuration.nix

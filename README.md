@@ -31,10 +31,6 @@ system/
 ├── macos/
 │   └── defaults.sh
 │
-├── nixos/
-│   ├── configuration.nix
-│   └── hardware-configuration.nix
-│
 └── scripts/
     ├── bootstrap-macos.sh
     └── link.sh
@@ -48,9 +44,8 @@ git clone git@github.com:<user>/system.git ~/Developer/system
 # Auto-detect OS and bootstrap
 task bootstrap
 
-# Or run platform-specific tasks
-#   task macos:bootstrap    (macOS)
-#   task nixos:link         (NixOS — symlink /etc/nixos)
+# Or run just macOS bootstrap
+#   task macos:bootstrap
 ```
 
 ## Usage
@@ -82,4 +77,4 @@ The main config sources the `.local` file if it exists.
 - **Single source of truth** — every config lives in this repo
 - **Idempotent** — `task link` is safe to re-run any time
 - **No secrets** — `.local` files for API keys and machine-specific settings
-- **Portable** — macOS-first, Linux-ready via platform-conditional tasks
+- **macOS-first** — designed for macOS, with platform-conditional tasks
