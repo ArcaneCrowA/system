@@ -31,8 +31,12 @@ system/
 ├── macos/
 │   └── defaults.sh
 │
+├── nixos/
+│   ├── configuration.nix
+│   └── hardware-configuration.nix
+│
 └── scripts/
-    ├── bootstrap.sh
+    ├── bootstrap-macos.sh
     └── link.sh
 ```
 
@@ -41,11 +45,12 @@ system/
 ```bash
 git clone git@github.com:<user>/system.git ~/Developer/system
 
-# First-time setup (macOS)
-task macos:bootstrap
+# Auto-detect OS and bootstrap
+task bootstrap
 
-# Re-link after moving the repo
-task link
+# Or run platform-specific tasks
+#   task macos:bootstrap    (macOS)
+#   task nixos:link         (NixOS — symlink /etc/nixos)
 ```
 
 ## Usage

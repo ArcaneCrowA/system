@@ -19,12 +19,22 @@ tasks:
     cmds:
       - sh scripts/link.sh
 
+  # ── Bootstrap ───────────────────────────────────────────────────────
+
+  bootstrap:
+    desc: Bootstrap the machine
+    deps:
+      - macos:bootstrap
+      - nixos:link
+    cmds:
+      - sh scripts/link.sh
+
   # ── macOS ──────────────────────────────────────────────────────────
 
   macos:bootstrap:
     desc: Install Homebrew and run Brewfile
     cmds:
-      - sh scripts/bootstrap.sh
+      - sh scripts/bootstrap-macos.sh
     platforms: [darwin]
 
   macos:defaults:
@@ -32,6 +42,15 @@ tasks:
     cmds:
       - sh macos/defaults.sh
     platforms: [darwin]
+
+  # ── NixOS ───────────────────────────────────────────────────────────
+
+  nixos:link:
+    desc: Symlink NixOS config into /etc/nixos (requires sudo)
+    cmds:
+      - sudo mkdir -p /etc/nixos
+      - sudo stow --no-folding -t /etc/nixos -d . nixos
+    platforms: [linux]
 
   # ── Update ─────────────────────────────────────────────────────────
 
