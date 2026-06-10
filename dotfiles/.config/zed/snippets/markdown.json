@@ -2,8 +2,6 @@
   "Fleeting Note": {
     "prefix": "flee",
     "body": [
-      "# ${1:YYYY-MM-DD}",
-      "",
       "## Tasks for Today",
       "- [ ] $0",
       "",
@@ -15,12 +13,12 @@
   "Literature Note": {
     "prefix": "lit",
     "body": [
-      "# ${1:YYYY-MM-DD} — ${2:Source Title}",
-      "Tags: #literature #${3:tag}",
+      "# ${1:Source Title}",
+      "Tags: #literature #${2:tag}",
       "",
       "## Summary",
       "",
-      "$4",
+      "$3",
       "",
       "## Key Takeaways",
       "- $0",
