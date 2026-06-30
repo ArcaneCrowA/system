@@ -5,6 +5,7 @@ if status is-interactive
     task --completion fish | source 2>/dev/null || :
 
     abbr -a gc 'git add . && git commit'
+    abbr -a inf 'infisical'
 end
 
 set fish_greeting ""
