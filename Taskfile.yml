@@ -4,7 +4,6 @@ version: "3"
 
 includes:
   go: languages/go.yml
-  rust: languages/rust.yml
   python: languages/python.yml
 
 tasks:
@@ -76,4 +75,4 @@ tasks:
 
   update:
     desc: Update all installed tooling
-    deps: [go:install, rust:install, python:install]
+    deps: [go:install, python:install, python:update]

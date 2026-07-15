@@ -11,3 +11,8 @@ tasks:
           - pyrefly
           - ruff
         cmd: uv tool install {{.ITEM}}
+
+  update:
+    desc: Updte Python development tooling via uv
+    platforms: [darwin, linux]
+    cmd: uv tool upgrade --all
