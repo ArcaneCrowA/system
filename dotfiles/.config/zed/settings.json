@@ -7,6 +7,9 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "title_bar": {
+    "show_sign_in": false
+  },
   "use_smartcase_search": true,
   "diff_view_style": "unified",
   "file_finder": {
@@ -49,7 +52,7 @@
     "default_model": {
       "effort": "high",
       "provider": "deepseek",
-      "model": "deepseek-v4-pro",
+      "model": "deepseek-v4-flash",
       "enable_thinking": true
     },
     "favorite_models": [],
@@ -70,7 +73,6 @@
     "diagnostics": false,
     "metrics": false,
   },
-  "base_keymap": "VSCode",
   "icon_theme": {
     "mode": "dark",
     "light": "Zed (Default)",
